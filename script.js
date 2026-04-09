@@ -46,3 +46,25 @@ if (whatsappForm) {
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   });
 }
+
+const revealTargets = document.querySelectorAll(
+  ".card, .process-step, .faq-item, .contact-box, .contact-form, .gallery-grid img, .media-photo-grid img, .media-video-card"
+);
+
+if ("IntersectionObserver" in window && revealTargets.length) {
+  revealTargets.forEach((item) => item.classList.add("reveal"));
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.16 }
+  );
+
+  revealTargets.forEach((item) => observer.observe(item));
+}
